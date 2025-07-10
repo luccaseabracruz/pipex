@@ -1,0 +1,14 @@
+# Build directories
+build/
+
+# Editor and workspace settings
+.vscode/
+retry2.code-workspace
+
+# Compiled files and binaries
+a.out
+*.o
+libft.a
+
+# Miscellaneous
+.bonus
