@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 16:31:02 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/10 11:50:37 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/15 19:22:44 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@
  * - If the file descriptor is closed or no more lines are available, the corresponding
  *   buffer is freed.
  */
-char	*get_next_line_bonud(int fd)
+char	*get_next_line_bonus(int fd)
 {
 	static char	*buffer[1024];
 	char		*line;

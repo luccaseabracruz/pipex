@@ -1,31 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/10 13:12:56 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/15 20:57:35 by lseabra-         ###   ########.fr       */
+/*   Created: 2025/07/13 16:16:51 by lseabra-          #+#    #+#             */
+/*   Updated: 2025/07/13 16:19:16 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+#include <stdio.h>
 
-int	main(int argc, char **argv)
+void	perror_exit(char *msg)
 {
-	char	*file1;
-	char	*file2;
-
-	if (argc >= 5)
-	{
-		file1 = argv + 1;
-		file2 = argv + (argc - 1);
-				
-	}
-	else
-	{
-		perror("Wrong input");
-		return (1);
-	}
-	return (0);
+	perror(msg);
+	exit(1);
 }

@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/10 13:12:56 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/15 20:57:35 by lseabra-         ###   ########.fr       */
+/*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
+/*   Updated: 2025/07/13 16:19:32 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PIPEX_H
+# define PIPEX_H
 
-int	main(int argc, char **argv)
-{
-	char	*file1;
-	char	*file2;
+void	perror_exit(char *msg);
 
-	if (argc >= 5)
-	{
-		file1 = argv + 1;
-		file2 = argv + (argc - 1);
-				
-	}
-	else
-	{
-		perror("Wrong input");
-		return (1);
-	}
-	return (0);
-}
+#endif
