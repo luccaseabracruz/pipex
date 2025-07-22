@@ -1,20 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_utils.c                                      :+:      :+:    :+:   */
+/*   learning_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/13 16:16:51 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/13 16:19:16 by lseabra-         ###   ########.fr       */
+/*   Created: 2025/07/18 11:48:26 by lseabra-          #+#    #+#             */
+/*   Updated: 2025/07/21 13:23:43 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdio.h>
 
-void	perror_exit(char *msg)
-{
-	perror(msg);
-	exit(1);
-}
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	int	i;
+// 	if (argc != 1)
+// 	{
+// 		i = 0;
+// 		while (argv[i])
+// 		{
+// 			printf("argv[%d]: %s\n", i, argv[i]);
+// 			i++;
+// 		}
+// 		i = 0;
+// 		while (envp[i])
+// 		{
+// 			printf("envp[%d]: %s\n", i, envp[i]);
+// 			i++;
+// 		}
+// 	}
+// 	return (0);
+// }

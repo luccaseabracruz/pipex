@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/07/10 13:06:22 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/07/21 21:51:52 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS_PATH           = srcs
 BUILD_PATH          = build
 
 # Source files
-SRCS = $(addprefix $(SRCS_PATH)/, )
+SRCS = $(addprefix $(SRCS_PATH)/, exec.c get_path.c utils.c)
 
 # Object files
 OBJS            = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
@@ -47,11 +47,14 @@ CC      = cc
 CFLAGS  = -Wall -Wextra -Werror
 
 # Utility commands
-#TCH     = touch
 RM      = rm -f
 RM_DIR  = rm -rf
 AR      = ar rcs
 MKDIR_P = mkdir -p
+
+# LIBFT
+LIBFT_PATH = libft
+LIBFT_NAME = $(LIBFT_PATH)/libft.a
 
 #==============================================================================#
 #                                    RULES                                     #
@@ -61,8 +64,9 @@ MKDIR_P = mkdir -p
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(MAIN) $(OBJS) $< -o $@
+$(NAME): $(OBJS) $(LIBFT_NAME)
+	@$(CC) $(CFLAGS) $(MAIN) $(OBJS) $(LIBFT_NAME) -o $@ -g
+	@echo "$(GREEN)[Executable compiled: $(NAME).]$(RESET)"
 
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -71,9 +75,8 @@ $(BUILD_PATH):
 	@$(MKDIR_P) $(BUILD_PATH)
 	@echo "$(BLUE)[Build directory created.]$(RESET)"
 
-#bonus: $(BONUS_MARK)
-
-#$(BONUS_MARK): $(OBJS) | $(BUILD_PATH)
+$(LIBFT_NAME):
+	make -C $(LIBFT_PATH) bonus
 
 clean:
 	@$(RM_DIR) $(BUILD_PATH)
