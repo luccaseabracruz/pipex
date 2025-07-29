@@ -1,1 +1,0 @@
-It worked! I know how to replace STDOUT.

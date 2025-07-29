@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 11:39:29 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/10 11:39:46 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:20:21 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
  * @brief Allocates and initializes memory to zero.
  *
  * The `ft_calloc` function allocates memory for an array of `nmemb` elements,
- * each of size `size`, and initializes all bytes in the allocated memory to zero.
+ * each of size `size`, and initializes all bytes in the allocated memory to 
+ * zero.
  *
  * @param nmemb The number of elements to allocate.
  * @param size The size of each element in bytes.
@@ -45,6 +46,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	}
 	return (ptr);
 }
+
 /**
  * @function ft_linelen
  * @brief Calculates the length of a line in a string.
@@ -72,15 +74,17 @@ size_t	ft_linelen(char *s)
  * @function ft_bufferlinejoin
  * @brief Joins a line and a buffer into a single string.
  *
- * The `ft_bufferlinejoin` function concatenates the contents of `line` and `buffer`
- * into a newly allocated string. The function ensures that the resulting string
- * includes all characters from both inputs and is null-terminated. The caller is 
- * responsible for freeing the memory allocated for the result.
+ * The `ft_bufferlinejoin` function concatenates the contents of `line` and
+ * `buffer` into a newly allocated string. The function ensures that the
+ * resulting string includes all characters from both inputs and is
+ * null-terminated. The caller is responsible for freeing the memory allocated
+ * for the result.
  *
  * @param line The first string to join. Can be `NULL`.
  * @param buffer The second string to join. Can be `NULL`.
  * @return A pointer to the newly allocated string containing the concatenated
- *         result of `line` and `buffer`. Returns `NULL` if memory allocation fails.
+ *         result of `line` and `buffer`. Returns `NULL` if memory allocation
+ *         fails.
  */
 char	*ft_bufferlinejoin(char *line, char *buffer)
 {
@@ -114,11 +118,13 @@ char	*ft_bufferlinejoin(char *line, char *buffer)
  * @function ft_haschar
  * @brief Checks if a character exists in a string.
  *
- * The `ft_haschar` function checks if the character `c` exists in the string `s`.
- * If the character `c` is found, the function returns `1`. Otherwise, it returns `0`.
- *
+ * The `ft_haschar` function checks if the character `c` exists in the string
+ * `s`. If the character `c` is found, the function returns `1`. Otherwise, it
+ * returns `0`.
+ * 
  * @param s The string to search in. Must be null-terminated.
- * @param c The character to locate, passed as an `int` but interpreted as `char`.
+ * @param c The character to locate, passed as an `int` but interpreted as
+ * `char`.
  * @return `1` if the character `c` is found in `s`, or `0` if it is not found.
  */
 int	ft_haschr(char *s, int c)
@@ -137,8 +143,9 @@ int	ft_haschr(char *s, int c)
  * @brief Cleans up a buffer after extracting a line.
  *
  * The `ft_cleanbuffer` function removes the characters of the current line,
- * including the newline character (`\n`), from the buffer. It shifts the remaining
- * characters in the buffer to the beginning and fills the rest with null terminators.
+ * including the newline character (`\n`), from the buffer. It shifts the 
+ * remaining characters in the buffer to the beginning and fills the rest with
+ * null terminators.
  *
  * @param buffer The buffer to clean. Must be a null-terminated string.
  *

@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/07/15 19:23:49 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/07/29 14:39:22 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)
 	@$(AR) $(NAME) $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)
-	@echo "$(GREEN)[Library $(NAME) created!]$(RESET)"
+	@echo "$(GREEN)[Library $(NAME) created]$(RESET)"
 
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -101,22 +101,22 @@ $(BUILD_PATH)/%.o: $(GNL_SRCS_PATH)/%.c | $(BUILD_PATH)
 
 $(BUILD_PATH):
 	@$(MKDIR_P) $(BUILD_PATH)
-	@echo "$(BLUE)[Build directory created.]$(RESET)"
+	@echo "$(BLUE)[Build directory created]$(RESET)"
 
 bonus: $(BONUS_MARK)
 
 $(BONUS_MARK): $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS) $(BONUS_OBJS) $(GNL_BONUS_OBJS) | $(BUILD_PATH)
 	@$(AR) $(NAME) $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS) $(BONUS_OBJS) $(GNL_BONUS_OBJS)
 	@$(TCH) $(BONUS_MARK)
-	@echo "$(YELLOW)[Bonus library $(NAME) created with bonus objects!]$(RESET)"
+	@echo "$(YELLOW)[Bonus library $(NAME) created with bonus objects]$(RESET)"
 
 clean:
 	@$(RM_DIR) $(BUILD_PATH)
 	@$(RM) $(BONUS_MARK)
-	@echo "$(BLUE)[Cleaned build files.]$(RESET)"
+	@echo "$(BLUE)[Cleaned build $(NAME) files]$(RESET)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(BLUE)[Full clean: library removed.]$(RESET)"
+	@echo "$(BLUE)[Full clean: $(NAME) library removed]$(RESET)"
 
 re: fclean all

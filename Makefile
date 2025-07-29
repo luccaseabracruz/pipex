@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/07/23 14:27:16 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/07/29 16:18:21 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,11 +32,13 @@ MAIN_BONUS = main_bonus.c
 
 # Paths
 SRCS_PATH           = srcs
+SRCS_BONUS_PATH     = srcs_bonus
 BUILD_PATH          = build
 
 # Source files
 SRCS = $(addprefix $(SRCS_PATH)/, exec.c get_path.c utils.c)
-SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, $(SRCS) utils_bonus.c)
+SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, $(SRCS) error_bonus.c \
+init_data_bonus.c)
 
 # Object files
 OBJS            = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
@@ -74,25 +76,30 @@ $(NAME): $(OBJS) $(LIBFT_NAME)
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+$(BUILD_PATH)/%.o: $(SRCS_BONUS_PATH)/%.c | $(BUILD_PATH)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
 $(BUILD_PATH):
 	@$(MKDIR_P) $(BUILD_PATH)
 	@echo "$(BLUE)[Build directory created]$(RESET)"
 
 $(LIBFT_NAME):
-	make -C $(LIBFT_PATH) bonus
+	@make -C $(LIBFT_PATH) bonus
 
 clean:
+	@make -C $(LIBFT_PATH) clean
 	@$(RM_DIR) $(BUILD_PATH)
 	@echo "$(BLUE)[Cleaned build files]$(RESET)"
 
 fclean: clean
+	@make -C $(LIBFT_PATH) fclean
 	@$(RM) $(NAME)
 	@echo "$(BLUE)[Full clean: library removed]$(RESET)"
 
 bonus: $(BONUS_MARK)
 
 $(BONUS_MARK): $(OBJS_BONUS) $(LIBFT_NAME)
-	@$(CC) $(CFLAGS) $(MAIN_BONUS) $(OBJS_BONUS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(MAIN_BONUS) $(OBJS_BONUS) $(LIBFT_NAME) -o $(NAME) -g
 	@echo "$(GREEN)[Bonus executable compiled: $(NAME)]$(RESET)"
 
 re: fclean all

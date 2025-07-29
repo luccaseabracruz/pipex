@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/28 13:27:16 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:09:51 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <sys/types.h>
 
 int		wait_children(pid_t pid1, pid_t pid2);
-void	puterr_exit(const char *msg, int code);
+void	puterr_exit(const char *msg, int status);
 void	close_pipe(int pipefd[2]);
 void	free_strarr(char **arr);
 char	*get_path(char *cmd, char **envp);

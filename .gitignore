@@ -6,6 +6,7 @@ build/
 retry2.code-workspace
 
 # Compiled files and binaries
+pipex
 a.out
 *.o
 libft.a
