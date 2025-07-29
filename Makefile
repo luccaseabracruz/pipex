@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/07/29 16:18:21 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/07/29 20:06:05 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,8 @@ BUILD_PATH          = build
 
 # Source files
 SRCS = $(addprefix $(SRCS_PATH)/, exec.c get_path.c utils.c)
-SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, $(SRCS) error_bonus.c \
-init_data_bonus.c)
+SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, $(SRCS) children_utils_bonus.c \
+clean_bonus.c init_data_bonus.c)
 
 # Object files
 OBJS            = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
