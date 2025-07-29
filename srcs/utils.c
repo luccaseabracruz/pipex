@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 16:16:51 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/22 16:12:22 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/23 11:16:14 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	wait_children(pid_t pid1, pid_t pid2)
 		return (EXIT_FAILURE);
 }
 
-void	puterr_exit(const char *msg, int code)
+void	puterr_exit(const char *msg, int status)
 {
 	perror(msg);
-	exit(code);
+	exit(status);
 }
 
 void	close_pipe(int pipefd[2])

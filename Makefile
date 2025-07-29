@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/07/21 21:51:52 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/07/23 14:27:16 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ NAME                = pipex
 
 # Main file
 MAIN = main.c
+MAIN_BONUS = main_bonus.c
 
 # Paths
 SRCS_PATH           = srcs
@@ -35,12 +36,14 @@ BUILD_PATH          = build
 
 # Source files
 SRCS = $(addprefix $(SRCS_PATH)/, exec.c get_path.c utils.c)
+SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, $(SRCS) utils_bonus.c)
 
 # Object files
 OBJS            = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
+OBJS_BONUS      = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS_BONUS:.c=.o)))
 
 # Bonus mark
-#BONUS_MARK      = .bonus
+BONUS_MARK      = .bonus
 
 # Compiler and flags
 CC      = cc
@@ -65,25 +68,31 @@ LIBFT_NAME = $(LIBFT_PATH)/libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_NAME)
-	@$(CC) $(CFLAGS) $(MAIN) $(OBJS) $(LIBFT_NAME) -o $@ -g
-	@echo "$(GREEN)[Executable compiled: $(NAME).]$(RESET)"
+	@$(CC) $(CFLAGS) $(MAIN) $(OBJS) $(LIBFT_NAME) -o $@
+	@echo "$(GREEN)[Executable compiled: $(NAME)]$(RESET)"
 
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD_PATH):
 	@$(MKDIR_P) $(BUILD_PATH)
-	@echo "$(BLUE)[Build directory created.]$(RESET)"
+	@echo "$(BLUE)[Build directory created]$(RESET)"
 
 $(LIBFT_NAME):
 	make -C $(LIBFT_PATH) bonus
 
 clean:
 	@$(RM_DIR) $(BUILD_PATH)
-	@echo "$(BLUE)[Cleaned build files.]$(RESET)"
+	@echo "$(BLUE)[Cleaned build files]$(RESET)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(BLUE)[Full clean: library removed.]$(RESET)"
+	@echo "$(BLUE)[Full clean: library removed]$(RESET)"
+
+bonus: $(BONUS_MARK)
+
+$(BONUS_MARK): $(OBJS_BONUS) $(LIBFT_NAME)
+	@$(CC) $(CFLAGS) $(MAIN_BONUS) $(OBJS_BONUS) -o $(NAME)
+	@echo "$(GREEN)[Bonus executable compiled: $(NAME)]$(RESET)"
 
 re: fclean all

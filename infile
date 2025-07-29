@@ -1,4 +1,11 @@
-a1
-a2
-b1
-b2
+total 60
+drwxrwxr-x 2 lucca  4096 Jul 23 11:42 build
+drwxrwxr-x 2 lucca  4096 Jul 23 11:18 includes
+-rw-rw-r-- 1 lucca     0 Jul 23 11:42 infile
+drwxrwxr-x 7 lucca  4096 Jul 21 13:31 libft
+-rw-rw-r-- 1 lucca   981 Jul 23 11:36 main_bonus.c
+-rw-rw-r-- 1 lucca  1587 Jul 21 20:08 main.c
+-rw-rw-r-- 1 lucca  2866 Jul 21 21:51 Makefile
+-rwxrwxr-x 1 lucca 25304 Jul 23 11:42 pipex
+drwxrwxr-x 2 lucca  4096 Jul 21 20:04 srcs
+drwxrwxr-x 2 lucca  4096 Jul 21 13:31 tests

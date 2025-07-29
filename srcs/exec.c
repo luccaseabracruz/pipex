@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 20:04:23 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/22 16:12:27 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/23 14:50:03 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static void	exec_command(int pipefd[2], char *cmd, char **envp)
 			free_strarr(cmd_arr);
 			puterr_exit(DUP2_FAIL_MSG, EXIT_FAILURE);
 		}
-		ft_printf("Command \"%s\" not found:", cmd_arr[0]);
+		ft_printf("Command '%s' not found.\n", cmd_arr[0]);
 		free_strarr(cmd_arr);
 		close_pipe(pipefd);
-		puterr_exit(NULL, EXIT_NOT_FOUND);
+		exit(EXIT_FAILURE);
 	}
 	if (execve(path, cmd_arr, envp) == -1)
 	{
@@ -52,7 +52,7 @@ void	exec_firstchild(char **argv, char **envp, int pipefd[2])
 	if (read_end == -1)
 	{
 		close(pipefd[1]);
-		puterr_exit(OPEN_FAIL_MSG, EXIT_FAILURE);
+		puterr_exit(argv[1], EXIT_FAILURE);
 	}
 	dup2(read_end, STDIN_FILENO);
 	close(read_end);
