@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/07/29 20:06:05 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/07/30 19:51:10 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,19 +26,14 @@ RESET   = \033[0m
 # Executable name
 NAME                = pipex
 
-# Main file
-MAIN = main.c
-MAIN_BONUS = main_bonus.c
-
 # Paths
 SRCS_PATH           = srcs
 SRCS_BONUS_PATH     = srcs_bonus
 BUILD_PATH          = build
 
 # Source files
-SRCS = $(addprefix $(SRCS_PATH)/, exec.c get_path.c utils.c)
-SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, $(SRCS) children_utils_bonus.c \
-clean_bonus.c init_data_bonus.c)
+SRCS = $(addprefix $(SRCS_PATH)/, main.c exec.c get_path.c utils.c)
+SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, main_bonus.c children_utils_bonus.c init_data_bonus.c clean_bonus.c get_path.c utils.c)
 
 # Object files
 OBJS            = $(addprefix $(BUILD_PATH)/, $(notdir $(SRCS:.c=.o)))
@@ -49,7 +44,7 @@ BONUS_MARK      = .bonus
 
 # Compiler and flags
 CC      = cc
-CFLAGS  = -Wall -Wextra -Werror
+CFLAGS  = -Wall -Wextra -Werror -g
 
 # Utility commands
 RM      = rm -f
@@ -70,7 +65,7 @@ LIBFT_NAME = $(LIBFT_PATH)/libft.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_NAME)
-	@$(CC) $(CFLAGS) $(MAIN) $(OBJS) $(LIBFT_NAME) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_NAME) -o $@
 	@echo "$(GREEN)[Executable compiled: $(NAME)]$(RESET)"
 
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
@@ -99,7 +94,7 @@ fclean: clean
 bonus: $(BONUS_MARK)
 
 $(BONUS_MARK): $(OBJS_BONUS) $(LIBFT_NAME)
-	@$(CC) $(CFLAGS) $(MAIN_BONUS) $(OBJS_BONUS) $(LIBFT_NAME) -o $(NAME) -g
+	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT_NAME) -o $(NAME)
 	@echo "$(GREEN)[Bonus executable compiled: $(NAME)]$(RESET)"
 
 re: fclean all

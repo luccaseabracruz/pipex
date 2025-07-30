@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/29 16:09:51 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/30 12:08:39 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	puterr_exit(const char *msg, int status);
 void	close_pipe(int pipefd[2]);
 void	free_strarr(char **arr);
 char	*get_path(char *cmd, char **envp);
+void	exec_command(int pipefd[2], char *cmd, char **envp);
 void	exec_firstchild(char **argv, char **envp, int pipefd[2]);
 void	exec_secondchild(char **argv, char **envp, int pipefd[2]);
 

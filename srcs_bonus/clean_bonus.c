@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_bonus.c                                      :+:      :+:    :+:   */
+/*   clean_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:44:19 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/29 19:39:04 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/30 21:49:10 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,17 @@ void	close_free_pipes(int **pipes, int size)
 	free(pipes);
 }
 
-void	clean_pipex_exit(t_pipex *pipex_data, char *msg, int status)
+void	clean_pipex(t_pipex *data)
 {
-	if (pipex_data->pipeline)
-		close_free_pipes(pipex_data->pipeline, (pipex_data->cmd_count - 1));
-	if (pipex_data->pid_arr)
-		free(pipex_data->pid_arr);
+	if (data->pipeline)
+		close_free_pipes(data->pipeline, data->cmd_count - 1);
+	if (data->pid_arr)
+		free(data->pid_arr);
+}
+
+void	clean_pipex_exit(t_pipex *data, char *msg, int status)
+{
+	clean_pipex(data);
 	if (msg)
 		puterr_exit(msg, status);
 	exit(status);

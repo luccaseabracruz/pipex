@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:58:38 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/29 19:38:29 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/07/30 19:59:54 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	init_pipeline(t_pipex *data)
 			close_free_pipes(data->pipeline, i);
 			clean_pipex_exit(data, NULL, EXIT_FAILURE);
 		}
-		else if (pipe(data->pipeline[i]) == -1)
+		else if (pipe(data->pipeline[i]) < 0)
 		{
 			free(data->pipeline[i]);
 			close_free_pipes(data->pipeline, i);
@@ -42,21 +42,21 @@ static void	init_pipeline(t_pipex *data)
 	}
 }
 
-void	init_data(t_pipex *pipex_data, int argc, char **argv, char **envp)
+void	init_data(t_pipex *data, int argc, char **argv, char **envp)
 {
-	ft_bzero(pipex_data, sizeof(t_pipex));
-	pipex_data->argv = argv;
-	pipex_data->envp = envp;
-	pipex_data->cmd_count = argc - 3;
-	pipex_data->pid_arr = ft_calloc(pipex_data->cmd_count, sizeof(int));
-	if (!pipex_data->pid_arr)
-		clean_pipex_exit(pipex_data, NULL, EXIT_FAILURE);
+	ft_bzero(data, sizeof(t_pipex));
+	data->argv = argv;
+	data->envp = envp;
+	data->cmd_count = argc - 3;
+	data->pid_arr = ft_calloc(data->cmd_count, sizeof(int));
+	if (!data->pid_arr)
+		clean_pipex_exit(data, NULL, EXIT_FAILURE);
 	if (ft_strnstr(argv[1], HERE_DOC, ft_strlen(HERE_DOC)))
 	{
-		pipex_data->cmd_count--;
-		pipex_data->here_doc = TRUE;
+		data->cmd_count--;
+		data->here_doc = TRUE;
 		ft_printf("here_doc not implemented yet.... please comeback later\n");
-		clean_pipex_exit(pipex_data, NULL, EXIT_FAILURE);
+		clean_pipex_exit(data, NULL, EXIT_FAILURE);
 	}
-	init_pipeline(pipex_data);
+	init_pipeline(data);
 }
