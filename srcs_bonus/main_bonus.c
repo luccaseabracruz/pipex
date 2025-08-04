@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 11:33:57 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/30 19:43:54 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:31:52 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		data.pid_arr[i] = fork();
 		if (data.pid_arr[i] < 0)
-			clean_pipex_exit(&data, FORK_FAIL_MSG, EXIT_FAILURE);
+			clean_error_exit(&data, FORK_FAIL_MSG, EXIT_FAILURE);
 		if (data.pid_arr[i] == 0)
 			exec_child(&data, i);
 		i++;
 	}
+	close_pipes(data.pipeline, (data.cmd_count - 1));
+	close_pipe(data.fds);
 	exit_status = wait_children_bonus(&data);
-	clean_pipex(&data);
+	pipex_final_clean(&data);
 	return (exit_status);
 }

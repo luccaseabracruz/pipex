@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/30 12:08:39 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/04 19:45:54 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # define PATH "PATH="
 # define INVALID_INPUT_MSG "Error: invalid input.\n"
-# define OPEN_FAIL_MSG "open"
 # define FORK_FAIL_MSG "fork"
 # define DUP2_FAIL_MSG "dup2"
 # define PIPE_FAIL_MSG "pipe"

@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:42:50 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/30 19:40:40 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:32:36 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
+
+//delete 
+void	print_lines(int fd);
 
 static void	exec_cmd_bonus(t_pipex *data, int pos)
 {
@@ -29,10 +32,10 @@ static void	exec_cmd_bonus(t_pipex *data, int pos)
 	{
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		ft_printf("Command '%s' not found.\n", cmd_arr[0]);
-		clean_pipex_exit(data, NULL, EXIT_FAILURE);
+		clean_error_exit(data, NULL, EXIT_FAILURE);
 	}
-	if (execve(path, cmd_arr, data->envp) < 0)
-		clean_pipex_exit(data, EXECVE_FAIL_MSG, EXIT_FAILURE);
+	if (execve(path, cmd_arr, data->envp) == -1)
+		clean_error_exit(data, EXECVE_FAIL_MSG, EXIT_FAILURE);
 }
 
 int	wait_children_bonus(t_pipex *data)
@@ -42,16 +45,12 @@ int	wait_children_bonus(t_pipex *data)
 	int	last_status;
 
 	i = 0;
+	last_status = EXIT_FAILURE;
 	while (i < data->cmd_count)
 	{
 		waitpid(data->pid_arr[i], &status, 0);
-		if (i == data->cmd_count - 1)
-		{
-			if (WIFEXITED(status))
-				last_status = (WEXITSTATUS(status));
-			else
-				last_status = EXIT_FAILURE;
-		}
+		if ((i == data->cmd_count - 1) && WIFEXITED(status))
+			last_status = (WEXITSTATUS(status));
 		i++;
 	}
 	return (last_status);
@@ -62,7 +61,11 @@ void	close_unused_pipes(t_pipex *data, int pos)
 	int	i;
 
 	i = 0;
-	while (i < data->cmd_count)
+	if (pos != 0)
+		close(data->fds[0]);
+	if (pos != (data->cmd_count - 1))
+		close(data->fds[1]);
+	while (i < data->cmd_count - 1)
 	{
 		if (i != pos - 1)
 			close(data->pipeline[i][0]);
@@ -72,50 +75,28 @@ void	close_unused_pipes(t_pipex *data, int pos)
 	}
 }
 
-static void	exec_firstchild_bonus(t_pipex *data)
-{
-	int	read_end;
-	
-	read_end = open(data->argv[1 + data->here_doc], O_RDONLY);
-	if (read_end < 0)
-		clean_pipex_exit(data, OPEN_FAIL_MSG, EXIT_FAILURE);
-	close_unused_pipes(data, 0);
-	dup2(read_end, STDIN_FILENO);
-	close(read_end);
-	dup2(data->pipeline[0][1], STDOUT_FILENO);
-	close(data->pipeline[0][1]);
-	exec_cmd_bonus(data, 0);
-}
-
-static void	exec_midlechild_bonus(t_pipex *data, int pos)
-{
-	close_unused_pipes(data, pos);
-	dup2(data->pipeline[pos - 1][0], STDIN_FILENO);
-	close(data->pipeline[pos - 1][0]);
-	dup2(data->pipeline[pos][1], STDOUT_FILENO);
-	close(data->pipeline[pos][1]);
-	exec_cmd_bonus(data, pos);
-}
-static void exec_lastchild_bonus(t_pipex *data, int pos)
-{
-	int	write_end;
-
-	write_end = open(data->argv[pos], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (write_end < 0)
-		clean_pipex_exit(data, OPEN_FAIL_MSG, EXIT_FAILURE);
-	close_unused_pipes(data, pos);
-	dup2(data->pipeline[pos - 1][0], STDIN_FILENO);
-	close(data->pipeline[pos - 1][0]);
-	dup2(write_end, STDOUT_FILENO);
-	close(write_end);
-	exec_cmd_bonus(data, pos);
-}
 void	exec_child(t_pipex *data, int pos)
 {
+	close_unused_pipes(data, pos);
 	if (pos == 0)
-		exec_firstchild_bonus(data);
-	else if (pos == (data->cmd_count - 1))
-		exec_lastchild_bonus(data, pos);
-	else if (pos > 0 && pos < data->cmd_count)
-		exec_midlechild_bonus(data, pos);
+	{
+		dup2(data->fds[0], STDIN_FILENO);
+		close(data->fds[0]);
+	}
+	else
+	{
+		dup2(data->pipeline[pos - 1][0], STDIN_FILENO);
+		close(data->pipeline[pos - 1][0]);
+	}
+	if (pos == (data->cmd_count - 1))
+	{
+		dup2(data->fds[1], STDOUT_FILENO);
+		close(data->fds[1]);
+	}
+	else
+	{
+		dup2(data->pipeline[pos][1], STDOUT_FILENO);
+		close(data->pipeline[pos][1]);
+	}
+	exec_cmd_bonus(data, pos);
 }

@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 11:18:43 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/30 19:40:16 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/04 20:30:34 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 
 typedef struct s_pipex
 {
+	int		argc;
 	char	**argv;
 	char	**envp;
+	int		fds[2];
 	int		**pipeline;
 	pid_t	*pid_arr;
 	int		cmd_count;
@@ -29,9 +31,10 @@ typedef struct s_pipex
 }			t_pipex;
 
 void	init_data(t_pipex *data, int argc, char **argv, char **envp);
+void	close_pipes(int **pipes, int size);
 void	close_free_pipes(int **pipes, int size);
-void	clean_pipex(t_pipex *data);
-void	clean_pipex_exit(t_pipex *data, char *msg, int status);
+void	clean_error_exit(t_pipex *data, char *msg, int status);
+void	pipex_final_clean(t_pipex *data);
 void	exec_child(t_pipex *data, int pos);
 int		wait_children_bonus(t_pipex *data);
 
