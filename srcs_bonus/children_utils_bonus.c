@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:42:50 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/04 20:32:36 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:06:35 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-//delete 
-void	print_lines(int fd);
 
 static void	exec_cmd_bonus(t_pipex *data, int pos)
 {
@@ -79,24 +76,12 @@ void	exec_child(t_pipex *data, int pos)
 {
 	close_unused_pipes(data, pos);
 	if (pos == 0)
-	{
-		dup2(data->fds[0], STDIN_FILENO);
-		close(data->fds[0]);
-	}
+		dup2_close(data->fds[0], STDIN_FILENO);
 	else
-	{
-		dup2(data->pipeline[pos - 1][0], STDIN_FILENO);
-		close(data->pipeline[pos - 1][0]);
-	}
+		dup2_close(data->pipeline[pos - 1][0], STDIN_FILENO);
 	if (pos == (data->cmd_count - 1))
-	{
-		dup2(data->fds[1], STDOUT_FILENO);
-		close(data->fds[1]);
-	}
+		dup2_close(data->fds[1], STDOUT_FILENO);
 	else
-	{
-		dup2(data->pipeline[pos][1], STDOUT_FILENO);
-		close(data->pipeline[pos][1]);
-	}
+		dup2_close(data->pipeline[pos][1], STDOUT_FILENO);
 	exec_cmd_bonus(data, pos);
 }

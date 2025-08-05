@@ -6,10 +6,11 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 16:16:51 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/29 16:10:07 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:04:00 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/pipex.h"
 #include "../libft/includes/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -52,4 +53,11 @@ void	free_strarr(char **arr)
 		i++;
 	}
 	free(arr);
+}
+
+void	dup2_close(int oldfd, int newfd)
+{
+	if (dup2(oldfd, newfd) < 0)
+		puterr_exit(DUP2_FAIL_MSG, EXIT_FAILURE);
+	close(oldfd);
 }

@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 11:18:43 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/04 20:30:34 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:00:01 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <sys/types.h>
 
 # define HERE_DOC "here_doc"
+# define HERE_DOC_PREFIX "\033[1mheredoc> \033[0m"
+# define DUP_FAIL_MSG "dup"
 
 typedef struct s_pipex
 {

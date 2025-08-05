@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:44:19 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/04 20:31:45 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/05 11:42:53 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ void	clean_error_exit(t_pipex *data, char *msg, int status)
 {
 	if (data->pipeline)
 		close_free_pipes(data->pipeline, data->cmd_count - 1);
-	close(data->fds[0]);
-	close(data->fds[1]);
+	if (data->fds[0] > 2)
+		close(data->fds[0]);
+	if (data->fds[1] > 2)
+		close(data->fds[1]);
 	if (data->pid_arr)
 		free(data->pid_arr);
 	if (msg)
@@ -60,7 +62,7 @@ void	pipex_final_clean(t_pipex *data)
 	int	i;
 
 	if (data->pipeline)
-	{	
+	{
 		i = 0;
 		while (i < (data->cmd_count - 1))
 		{

@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 20:04:23 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/04 19:45:40 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:51:16 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ void	exec_command(int pipefd[2], char *cmd, char **envp)
 	path = get_path(cmd_arr[0], envp);
 	if (!path)
 	{
-		dup2(STDERR_FILENO, STDOUT_FILENO);
-		ft_printf("Command '%s' not found.\n", cmd_arr[0]);
+		if (dup2(STDERR_FILENO, STDOUT_FILENO) < 0)
+			perror(DUP2_FAIL_MSG);
+		ft_printf("Command not found: %s\n", cmd_arr[0]);
 		free_strarr(cmd_arr);
 		close_pipe(pipefd);
-		exit(EXIT_FAILURE);
+		exit(EXIT_NOT_FOUND);
 	}
 	if (execve(path, cmd_arr, envp) < 0)
 	{
@@ -50,10 +51,8 @@ void	exec_firstchild(char **argv, char **envp, int pipefd[2])
 		close(pipefd[1]);
 		puterr_exit(argv[1], EXIT_FAILURE);
 	}
-	dup2(read_end, STDIN_FILENO);
-	close(read_end);
-	dup2(pipefd[1], STDOUT_FILENO);
-	close(pipefd[1]);
+	dup2_close(read_end, STDIN_FILENO);
+	dup2_close(pipefd[1], STDOUT_FILENO);
 	exec_command(pipefd, argv[2], envp);
 }
 
@@ -68,9 +67,7 @@ void	exec_secondchild(char **argv, char **envp, int pipefd[2])
 		close(pipefd[1]);
 		puterr_exit(argv[4], EXIT_FAILURE);
 	}
-	dup2(pipefd[0], STDIN_FILENO);
-	close(pipefd[0]);
-	dup2(write_end, STDOUT_FILENO);
-	close(write_end);
+	dup2_close(pipefd[0], STDIN_FILENO);
+	dup2_close(write_end, STDOUT_FILENO);
 	exec_command(pipefd, argv[3], envp);
 }
