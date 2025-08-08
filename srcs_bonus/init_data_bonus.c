@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:58:38 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/05 18:30:20 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/07 19:52:09 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,32 +42,37 @@ static void	init_pipeline(t_pipex *data)
 	}
 }
 
-void	exec_here_doc(t_pipex *data)
+static void	exec_here_doc(t_pipex *data)
 {
 	char	*line;
+	int		pipefd[2];
 
-	ft_putstr_fd(HERE_DOC_PREFIX, STDOUT_FILENO);
-	line = get_next_line(STDIN_FILENO);
-	while(ft_strncmp(data->argv[2], line, ft_linelen(line)) != 0)
+	if (pipe(pipefd) < 0)
+		puterr_exit(PIPE_FAIL_MSG, EXIT_FAILURE);
+	while (TRUE)
 	{
-		ft_putstr_fd(line, data->pipeline[0][1]);
 		ft_putstr_fd(HERE_DOC_PREFIX, STDOUT_FILENO);
-		free(line);
 		line = get_next_line(STDIN_FILENO);
+		if (!line)
+		{
+			ft_printf("\n%s (wanted `%s')\n", HERE_DOC_WARNING, data->argv[2]);
+			break ;
+		}
+		else if (ft_strncmp(data->argv[2], line, (ft_linelen(line)) - 1) == 0)
+			break ;
+		ft_putstr_fd(line, pipefd[1]);
+		free(line);
 	}
 	if (line)
 		free(line);
+	close(pipefd[1]);
+	data->fds[0] = pipefd[0];
 }
 
 static void	init_file_fds(t_pipex *data, int argc, char **argv)
 {
 	if (data->here_doc)
-	{
-		data->fds[0] = dup(data->pipeline[0][1]);
-		if (data->fds[0] < 0)
-			clean_error_exit(data, DUP_FAIL_MSG, EXIT_FAILURE);
 		exec_here_doc(data);
-	}
 	else
 	{
 		data->fds[0] = open(argv[1], O_RDONLY);
@@ -93,9 +98,9 @@ void	init_data(t_pipex *data, int argc, char **argv, char **envp)
 	if (ft_strnstr(argv[1], HERE_DOC, ft_strlen(HERE_DOC)))
 		data->here_doc = TRUE;
 	data->cmd_count = argc - 3 - data->here_doc;
+	init_file_fds(data, argc, argv);
 	data->pid_arr = ft_calloc(data->cmd_count, sizeof(int));
 	if (!data->pid_arr)
 		clean_error_exit(data, NULL, EXIT_FAILURE);
 	init_pipeline(data);
-	init_file_fds(data, argc, argv);
 }
