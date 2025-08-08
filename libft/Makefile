@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/07/29 14:39:22 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/08/08 19:05:43 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,9 @@ RESET   = \033[0m
 #                                  VARIABLES                                   #
 #==============================================================================#
 
-# Library name
+# Names
 NAME                = libft.a
+PROJECT_NAME        = LIBFT
 
 # Paths
 BUILD_PATH          = build
@@ -88,7 +89,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)
 	@$(AR) $(NAME) $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS)
-	@echo "$(GREEN)[Library $(NAME) created]$(RESET)"
+	@echo "$(YELLOW)[$(PROJECT_NAME)] Static Library created: $(NAME)$(RESET)"
 
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -101,22 +102,22 @@ $(BUILD_PATH)/%.o: $(GNL_SRCS_PATH)/%.c | $(BUILD_PATH)
 
 $(BUILD_PATH):
 	@$(MKDIR_P) $(BUILD_PATH)
-	@echo "$(BLUE)[Build directory created]$(RESET)"
+	@echo "$(YELLOW)[$(PROJECT_NAME)] Build directory created$(RESET)"
 
 bonus: $(BONUS_MARK)
 
-$(BONUS_MARK): $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS) $(BONUS_OBJS) $(GNL_BONUS_OBJS) | $(BUILD_PATH)
+$(BONUS_MARK): $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS) $(BONUS_OBJS) $(GNL_BONUS_OBJS)
 	@$(AR) $(NAME) $(OBJS) $(FT_PRINTF_OBJS) $(GNL_OBJS) $(BONUS_OBJS) $(GNL_BONUS_OBJS)
 	@$(TCH) $(BONUS_MARK)
-	@echo "$(YELLOW)[Bonus library $(NAME) created with bonus objects]$(RESET)"
+	@echo "$(YELLOW)[$(PROJECT_NAME)] Bonus library created: $(NAME)$(RESET)"
 
 clean:
 	@$(RM_DIR) $(BUILD_PATH)
 	@$(RM) $(BONUS_MARK)
-	@echo "$(BLUE)[Cleaned build $(NAME) files]$(RESET)"
+	@echo "$(YELLOW)[$(PROJECT_NAME)] Cleaned build files$(RESET)"
 
 fclean: clean
 	@$(RM) $(NAME)
-	@echo "$(BLUE)[Full clean: $(NAME) library removed]$(RESET)"
+	@echo "$(YELLOW)[$(PROJECT_NAME)] Full clean: $(NAME) library removed$(RESET)"
 
 re: fclean all
