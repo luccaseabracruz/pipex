@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/08/08 19:52:43 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/08/11 14:08:20 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,6 +101,7 @@ clean:
 
 fclean: clean
 	@$(RM) $(NAME)
+	@$(RM) $(BONUS_MARK)
 	@echo "$(GREEN)[$(PROJECT_NAME)] Full clean: Executable $(NAME) removed $(RESET)"
 
 bonus: $(BONUS_MARK)
