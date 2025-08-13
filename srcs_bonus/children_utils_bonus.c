@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:42:50 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/05 17:06:35 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:05:22 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,14 @@ static void	exec_cmd_bonus(t_pipex *data, int pos)
 	{
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		ft_printf("Command '%s' not found.\n", cmd_arr[0]);
+		free_strarr(cmd_arr);
 		clean_error_exit(data, NULL, EXIT_FAILURE);
 	}
 	if (execve(path, cmd_arr, data->envp) == -1)
+	{
+		free_strarr(cmd_arr);
 		clean_error_exit(data, EXECVE_FAIL_MSG, EXIT_FAILURE);
+	}
 }
 
 int	wait_children_bonus(t_pipex *data)
