@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 11:18:43 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/13 17:06:11 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/13 17:17:32 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <sys/types.h>
 
 # define HERE_DOC "here_doc"
-# define HERE_DOC_PREFIX "\033[1;37m pipe heredoc> \033[0m"
+# define HERE_DOC_PREFIX "\033[1;37m heredoc> \033[0m"
 # define HERE_DOC_WARNING "warning: here-document delimited by end-of-file"
 # define DUP_FAIL_MSG "dup"
 
