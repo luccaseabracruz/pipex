@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:43:08 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/05 16:59:33 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/13 16:07:55 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,24 @@ static char	*find_valid_path(char **all_paths, char *cmd)
 	char	*complete_path;
 	int		i;
 
-	i = 0;
-	while (all_paths[i])
+	if (ft_strchr(cmd, '/'))
 	{
-		dir_path = ft_strjoin(all_paths[i], "/");
-		complete_path = ft_strjoin(dir_path, cmd);
-		free(dir_path);
-		if (access(complete_path, F_OK | X_OK) == 0)
-			return (complete_path);
-		free(complete_path);
-		i++;
+		if (access(cmd, F_OK | X_OK) == 0)
+			return (cmd);
+	}
+	else
+	{
+		i = 0;
+		while (all_paths[i])
+		{
+			dir_path = ft_strjoin(all_paths[i], "/");
+			complete_path = ft_strjoin(dir_path, cmd);
+			free(dir_path);
+			if (access(complete_path, F_OK | X_OK) == 0)
+				return (complete_path);
+			free(complete_path);
+			i++;
+		}
 	}
 	return (NULL);
 }

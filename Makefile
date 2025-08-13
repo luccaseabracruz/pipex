@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/08/13 15:15:05 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/08/13 15:18:17 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,7 +78,7 @@ $(NAME): $(MANDATORY_MARK)
 $(MANDATORY_MARK): $(OBJS) $(LIBFT_NAME)
 	@$(RM) $(BONUS_MARK)
 	@$(TC) $(MANDATORY_MARK)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_NAME) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_NAME) -o $(NAME)
 	@echo "$(GREEN)[$(PROJECT_NAME)] Executable compiled: $(NAME)$(RESET)"
 
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
