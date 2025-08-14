@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:58:38 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 19:47:16 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 20:18:20 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	init_data_bonus(t_pipex_bonus *dt, int argc, char **argv, char **envp)
 	dt->argc = argc;
 	dt->argv = argv;
 	dt->envp = envp;
-	if (ft_strnstr(argv[1], HERE_DOC, ft_strlen(HERE_DOC)))
+	if (ft_strncmp(HERE_DOC, argv[1], ft_strlen(HERE_DOC) + 1) == 0)
 		dt->here_doc = TRUE;
 	dt->cmd_count = argc - 3 - dt->here_doc;
 	init_file_fds(dt);
