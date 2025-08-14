@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/05 16:52:16 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:34:27 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,22 @@
 
 # include <sys/types.h>
 
-int		wait_children(pid_t pid1, pid_t pid2);
+typedef struct s_pipex
+{
+	char	**argv;
+	char	**envp;
+	int		fds[2];
+	int		pipefd[2];
+	pid_t	pid_arr[2];
+}			t_pipex;
+
+void	init_data(t_pipex *data, char **argv, char **envp);
+int		wait_children(pid_t pid_arr[2]);
 void	puterr_exit(const char *msg, int status);
 void	close_pipe(int pipefd[2]);
 void	free_strarr(char **arr);
 void	dup2_close(int oldfd, int newfd);
 char	*get_path(char *cmd, char **envp);
-void	exec_command(int pipefd[2], char *cmd, char **envp);
-void	exec_firstchild(char **argv, char **envp, int pipefd[2]);
-void	exec_secondchild(char **argv, char **envp, int pipefd[2]);
+void	exec_child(t_pipex *data, int child_index);
 
 #endif

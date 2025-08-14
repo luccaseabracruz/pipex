@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 11:33:57 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/04 20:31:52 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:36:59 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipex	data;
-	int		i;
-	int		exit_status;
+	t_pipex_bonus	data;
+	int				i;
+	int				exit_status;
 
 	if (argc < 5)
 	{
 		ft_putstr_fd(INVALID_INPUT_MSG, STDERR_FILENO);
 		exit(EXIT_INVALID_INPUT);
 	}
-	init_data(&data, argc, argv, envp);
+	init_data_bonus(&data, argc, argv, envp);
 	i = 0;
 	while (i < data.cmd_count)
 	{
@@ -35,7 +35,7 @@ int	main(int argc, char **argv, char **envp)
 		if (data.pid_arr[i] < 0)
 			clean_error_exit(&data, FORK_FAIL_MSG, EXIT_FAILURE);
 		if (data.pid_arr[i] == 0)
-			exec_child(&data, i);
+			exec_child_bonus(&data, i);
 		i++;
 	}
 	close_pipes(data.pipeline, (data.cmd_count - 1));

@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:12:56 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/07/30 19:36:11 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:24:23 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,29 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		pipefd[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	t_pipex	data;
+	int		i;
 
 	if (argc != 5)
 	{
 		ft_putstr_fd(INVALID_INPUT_MSG, STDERR_FILENO);
 		exit(EXIT_INVALID_INPUT);
 	}
-	if (pipe(pipefd) < 0)
-		puterr_exit(PIPE_FAIL_MSG, EXIT_FAILURE);
-	pid1 = fork();
-	if (pid1 < 0)
-		puterr_exit(FORK_FAIL_MSG, EXIT_FAILURE);
-	if (pid1 == 0)
-		exec_firstchild(argv, envp, pipefd);
-	pid2 = fork();
-	if (pid2 < 0)
-		puterr_exit(FORK_FAIL_MSG, EXIT_FAILURE);
-	if (pid2 == 0)
-		exec_secondchild(argv, envp, pipefd);
-	close_pipe(pipefd);
-	return (wait_children(pid1, pid2));
+	init_data(&data, argv, envp);
+	i = 0;
+	while (i < 2)
+	{
+		data.pid_arr[i] = fork();
+		if (data.pid_arr[i] < 0)
+		{
+			close_pipe(data.fds);
+			puterr_exit(FORK_FAIL_MSG, EXIT_FAILURE);
+		}
+		if (data.pid_arr[i] == 0)
+			exec_child(&data, i);
+		i++;
+	}
+	close_pipe(data.pipefd);
+	close_pipe(data.fds);
+	return (wait_children(data.pid_arr));
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.c                                             :+:      :+:    :+:   */
+/*   exec_child.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 20:04:23 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/05 16:51:16 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:22:00 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,58 +16,45 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-void	exec_command(int pipefd[2], char *cmd, char **envp)
+static void	exec_cmd(t_pipex *data, int child_index)
 {
 	char	**cmd_arr;
 	char	*path;
 
-	cmd_arr = ft_split(cmd, ' ');
-	path = get_path(cmd_arr[0], envp);
+	cmd_arr = ft_split(data->argv[2 + child_index], ' ');
+	path = get_path(cmd_arr[0], data->envp);
 	if (!path)
 	{
 		if (dup2(STDERR_FILENO, STDOUT_FILENO) < 0)
 			perror(DUP2_FAIL_MSG);
 		ft_printf("Command not found: %s\n", cmd_arr[0]);
 		free_strarr(cmd_arr);
-		close_pipe(pipefd);
+		close_pipe(data->pipefd);
+		close_pipe(data->fds);
 		exit(EXIT_NOT_FOUND);
 	}
-	if (execve(path, cmd_arr, envp) < 0)
+	if (execve(path, cmd_arr, data->envp) < 0)
 	{
 		free_strarr(cmd_arr);
-		close_pipe(pipefd);
+		close_pipe(data->pipefd);
+		close_pipe(data->fds);
 		puterr_exit(EXECVE_FAIL_MSG, EXIT_FAILURE);
 	}
 }
 
-void	exec_firstchild(char **argv, char **envp, int pipefd[2])
+void	exec_child(t_pipex *data, int child_index)
 {
-	int	read_end;
-
-	close(pipefd[0]);
-	read_end = open(argv[1], O_RDONLY);
-	if (read_end < 0)
+	if (child_index == 0)
 	{
-		close(pipefd[1]);
-		puterr_exit(argv[1], EXIT_FAILURE);
+		close(data->pipefd[0]);
+		dup2_close(data->fds[0], STDIN_FILENO);
+		dup2_close(data->pipefd[1], STDOUT_FILENO);
 	}
-	dup2_close(read_end, STDIN_FILENO);
-	dup2_close(pipefd[1], STDOUT_FILENO);
-	exec_command(pipefd, argv[2], envp);
-}
-
-void	exec_secondchild(char **argv, char **envp, int pipefd[2])
-{
-	int	write_end;
-
-	close(pipefd[1]);
-	write_end = open(argv[4], (O_WRONLY | O_CREAT | O_TRUNC), 0644);
-	if (write_end < 0)
+	else if (child_index == 1)
 	{
-		close(pipefd[1]);
-		puterr_exit(argv[4], EXIT_FAILURE);
+		close(data->pipefd[1]);
+		dup2_close(data->pipefd[0], STDIN_FILENO);
+		dup2_close(data->fds[1], STDOUT_FILENO);
 	}
-	dup2_close(pipefd[0], STDIN_FILENO);
-	dup2_close(write_end, STDOUT_FILENO);
-	exec_command(pipefd, argv[3], envp);
+	exec_cmd(data, child_index);
 }

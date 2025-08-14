@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:44:19 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/05 11:42:53 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 15:27:19 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	close_free_pipes(int **pipes, int size)
 	free(pipes);
 }
 
-void	clean_error_exit(t_pipex *data, char *msg, int status)
+void	clean_error_exit(t_pipex_bonus *data, char *msg, int status)
 {
 	if (data->pipeline)
 		close_free_pipes(data->pipeline, data->cmd_count - 1);
@@ -57,7 +57,7 @@ void	clean_error_exit(t_pipex *data, char *msg, int status)
 	exit(status);
 }
 
-void	pipex_final_clean(t_pipex *data)
+void	pipex_final_clean(t_pipex_bonus *data)
 {
 	int	i;
 

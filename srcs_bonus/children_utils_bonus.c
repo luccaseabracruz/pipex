@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:42:50 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/13 15:05:22 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 16:20:02 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-static void	exec_cmd_bonus(t_pipex *data, int pos)
+static void	exec_cmd_bonus(t_pipex_bonus *data, int pos)
 {
 	char	*path;
 	char	**cmd_arr;
@@ -27,7 +27,8 @@ static void	exec_cmd_bonus(t_pipex *data, int pos)
 	path = get_path(cmd_arr[0], data->envp);
 	if (!path)
 	{
-		dup2(STDERR_FILENO, STDOUT_FILENO);
+		if (dup2(STDERR_FILENO, STDOUT_FILENO) < 0)
+			perror(DUP2_FAIL_MSG);
 		ft_printf("Command '%s' not found.\n", cmd_arr[0]);
 		free_strarr(cmd_arr);
 		clean_error_exit(data, NULL, EXIT_FAILURE);
@@ -39,7 +40,7 @@ static void	exec_cmd_bonus(t_pipex *data, int pos)
 	}
 }
 
-int	wait_children_bonus(t_pipex *data)
+int	wait_children_bonus(t_pipex_bonus *data)
 {
 	int	i;
 	int	status;
@@ -57,7 +58,7 @@ int	wait_children_bonus(t_pipex *data)
 	return (last_status);
 }
 
-void	close_unused_pipes(t_pipex *data, int pos)
+static void	close_unused_pipes(t_pipex_bonus *data, int pos)
 {
 	int	i;
 
@@ -76,7 +77,7 @@ void	close_unused_pipes(t_pipex *data, int pos)
 	}
 }
 
-void	exec_child(t_pipex *data, int pos)
+void	exec_child_bonus(t_pipex_bonus *data, int pos)
 {
 	close_unused_pipes(data, pos);
 	if (pos == 0)

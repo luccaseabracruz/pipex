@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 11:18:43 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/13 17:17:32 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:34:20 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define HERE_DOC_WARNING "warning: here-document delimited by end-of-file"
 # define DUP_FAIL_MSG "dup"
 
-typedef struct s_pipex
+typedef struct s_pipex_bonus
 {
 	int		argc;
 	char	**argv;
@@ -31,14 +31,14 @@ typedef struct s_pipex
 	pid_t	*pid_arr;
 	int		cmd_count;
 	bool	here_doc;
-}			t_pipex;
+}			t_pipex_bonus;
 
-void	init_data(t_pipex *data, int argc, char **argv, char **envp);
+void	init_data_bonus(t_pipex_bonus *data, int argc, char **argv, char **envp);
 void	close_pipes(int **pipes, int size);
 void	close_free_pipes(int **pipes, int size);
-void	clean_error_exit(t_pipex *data, char *msg, int status);
-void	pipex_final_clean(t_pipex *data);
-void	exec_child(t_pipex *data, int pos);
-int		wait_children_bonus(t_pipex *data);
+void	clean_error_exit(t_pipex_bonus *data, char *msg, int status);
+void	pipex_final_clean(t_pipex_bonus *data);
+void	exec_child_bonus(t_pipex_bonus *data, int pos);
+int		wait_children_bonus(t_pipex_bonus *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 16:16:51 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/05 14:04:00 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:22:40 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,24 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int	wait_children(pid_t pid1, pid_t pid2)
+int	wait_children(pid_t pid_arr[2])
 {
 	int	status1;
 	int	status2;
 
-	waitpid(pid1, &status1, 0);
-	waitpid(pid2, &status2, 0);
+	waitpid(pid_arr[0], &status1, 0);
+	waitpid(pid_arr[1], &status2, 0);
 	if (WIFEXITED(status2))
 		return (WEXITSTATUS(status2));
 	else
 		return (EXIT_FAILURE);
+}
+
+void	dup2_close(int oldfd, int newfd)
+{
+	if (dup2(oldfd, newfd) < 0)
+		puterr_exit(DUP2_FAIL_MSG, EXIT_FAILURE);
+	close(oldfd);
 }
 
 void	puterr_exit(const char *msg, int status)
@@ -53,11 +60,4 @@ void	free_strarr(char **arr)
 		i++;
 	}
 	free(arr);
-}
-
-void	dup2_close(int oldfd, int newfd)
-{
-	if (dup2(oldfd, newfd) < 0)
-		puterr_exit(DUP2_FAIL_MSG, EXIT_FAILURE);
-	close(oldfd);
 }

@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:58:38 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/07 19:52:09 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 17:34:33 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-static void	init_pipeline(t_pipex *data)
+static void	init_pipeline(t_pipex_bonus *data)
 {
 	int	i;
 
@@ -42,7 +42,7 @@ static void	init_pipeline(t_pipex *data)
 	}
 }
 
-static void	exec_here_doc(t_pipex *data)
+static void	exec_here_doc(t_pipex_bonus *data)
 {
 	char	*line;
 	int		pipefd[2];
@@ -69,7 +69,7 @@ static void	exec_here_doc(t_pipex *data)
 	data->fds[0] = pipefd[0];
 }
 
-static void	init_file_fds(t_pipex *data, int argc, char **argv)
+static void	init_file_fds(t_pipex_bonus *data, int argc, char **argv)
 {
 	if (data->here_doc)
 		exec_here_doc(data);
@@ -87,9 +87,9 @@ static void	init_file_fds(t_pipex *data, int argc, char **argv)
 	}
 }
 
-void	init_data(t_pipex *data, int argc, char **argv, char **envp)
+void	init_data_bonus(t_pipex_bonus *data, int argc, char **argv, char **envp)
 {
-	ft_bzero(data, sizeof(t_pipex));
+	ft_bzero(data, sizeof(t_pipex_bonus));
 	data->fds[0] = -1;
 	data->fds[1] = -1;
 	data->argc = argc;

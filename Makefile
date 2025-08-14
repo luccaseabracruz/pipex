@@ -6,7 +6,7 @@
 #    By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/14 11:48:51 by lseabra-          #+#    #+#              #
-#    Updated: 2025/08/13 15:18:17 by lseabra-         ###   ########.fr        #
+#    Updated: 2025/08/14 17:08:27 by lseabra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,11 +34,12 @@ BUILD_PATH          = build
 
 # Source files
 SRCS = $(addprefix $(SRCS_PATH)/, \
-    main.c exec.c    get_path.c utils.c \
+	main.c			exec_child.c			get_path.c	\
+	utils.c			init_data.c	\
 )
 SRCS_BONUS = $(addprefix $(SRCS_BONUS_PATH)/, \
-    main_bonus.c    children_utils_bonus.c    init_data_bonus.c \
-    clean_bonus.c   get_path.c utils.c \
+	main_bonus.c	children_utils_bonus.c	init_data_bonus.c	\
+	clean_bonus.c	get_path.c utils.c	\
 )
 
 # Object files
@@ -76,9 +77,9 @@ all: $(NAME)
 $(NAME): $(MANDATORY_MARK)
 
 $(MANDATORY_MARK): $(OBJS) $(LIBFT_NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_NAME) -o $(NAME)
 	@$(RM) $(BONUS_MARK)
 	@$(TC) $(MANDATORY_MARK)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT_NAME) -o $(NAME)
 	@echo "$(GREEN)[$(PROJECT_NAME)] Executable compiled: $(NAME)$(RESET)"
 
 $(BUILD_PATH)/%.o: $(SRCS_PATH)/%.c | $(BUILD_PATH)
@@ -108,9 +109,9 @@ fclean: clean
 bonus: $(BONUS_MARK)
 
 $(BONUS_MARK): $(OBJS_BONUS) $(LIBFT_NAME)
+	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT_NAME) -o $(NAME)
 	@$(RM) $(MANDATORY_MARK)
 	@$(TC) $(BONUS_MARK)
-	@$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT_NAME) -o $(NAME)
 	@echo "$(GREEN)[$(PROJECT_NAME)] Bonus executable compiled: $(NAME)$(RESET)"
 
 re: fclean all
