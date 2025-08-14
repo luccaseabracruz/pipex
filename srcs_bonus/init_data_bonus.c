@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:58:38 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 17:34:33 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/14 19:47:16 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,38 +69,49 @@ static void	exec_here_doc(t_pipex_bonus *data)
 	data->fds[0] = pipefd[0];
 }
 
-static void	init_file_fds(t_pipex_bonus *data, int argc, char **argv)
+static void	init_file_fds(t_pipex_bonus *data)
 {
+	char	*outfile;
+
+	outfile = data->argv[data->argc - 1];
 	if (data->here_doc)
+	{
 		exec_here_doc(data);
+		data->fds[1] = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (data->fds[1] < 0)
+		{
+			close(data->fds[0]);
+			clean_error_exit(data, outfile, EXIT_FAILURE);
+		}
+	}
 	else
 	{
-		data->fds[0] = open(argv[1], O_RDONLY);
+		data->fds[0] = open(data->argv[1], O_RDONLY);
 		if (data->fds[0] < 0)
-			clean_error_exit(data, argv[1], EXIT_FAILURE);
-	}
-	data->fds[1] = open(argv[argc - 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (data->fds[1] < 0)
-	{
-		close(data->fds[0]);
-		clean_error_exit(data, argv[argc - 1], EXIT_FAILURE);
+			clean_error_exit(data, data->argv[1], EXIT_FAILURE);
+		data->fds[1] = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (data->fds[1] < 0)
+		{
+			close(data->fds[0]);
+			clean_error_exit(data, outfile, EXIT_FAILURE);
+		}
 	}
 }
 
-void	init_data_bonus(t_pipex_bonus *data, int argc, char **argv, char **envp)
+void	init_data_bonus(t_pipex_bonus *dt, int argc, char **argv, char **envp)
 {
-	ft_bzero(data, sizeof(t_pipex_bonus));
-	data->fds[0] = -1;
-	data->fds[1] = -1;
-	data->argc = argc;
-	data->argv = argv;
-	data->envp = envp;
+	ft_bzero(dt, sizeof(t_pipex_bonus));
+	dt->fds[0] = -1;
+	dt->fds[1] = -1;
+	dt->argc = argc;
+	dt->argv = argv;
+	dt->envp = envp;
 	if (ft_strnstr(argv[1], HERE_DOC, ft_strlen(HERE_DOC)))
-		data->here_doc = TRUE;
-	data->cmd_count = argc - 3 - data->here_doc;
-	init_file_fds(data, argc, argv);
-	data->pid_arr = ft_calloc(data->cmd_count, sizeof(int));
-	if (!data->pid_arr)
-		clean_error_exit(data, NULL, EXIT_FAILURE);
-	init_pipeline(data);
+		dt->here_doc = TRUE;
+	dt->cmd_count = argc - 3 - dt->here_doc;
+	init_file_fds(dt);
+	dt->pid_arr = ft_calloc(dt->cmd_count, sizeof(int));
+	if (!dt->pid_arr)
+		clean_error_exit(dt, NULL, EXIT_FAILURE);
+	init_pipeline(dt);
 }
