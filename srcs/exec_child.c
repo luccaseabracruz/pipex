@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 20:04:23 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 15:37:49 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:03:16 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	exec_cmd(t_pipex *data, int child_index)
 	if (!path)
 	{
 		dup2(STDERR_FILENO, STDOUT_FILENO);
-		ft_printf("pipex: command not found: %s\n", cmd_arr[0]);
+		ft_printf("%s: %s: %s\n", PROGRAM_NAME, CMD_NOT_FOUND_MSG, cmd_arr[0]);
 		free_strarr(cmd_arr);
 		close_pipe(data->pipefd);
 		close_pipe(data->fds);
