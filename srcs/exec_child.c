@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 20:04:23 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:14:40 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:54:25 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ static void	exec_cmd(t_pipex *data, int child_index)
 	}
 }
 
-void	exec_child(t_pipex *data, int child_index)
+static void	prep_fst_child(t_pipex *data)
 {
-	if (child_index == 0)
-	{
-		close(data->pipefd[0]);
+	close(data->pipefd[0]);
 		if (data->fds[0] < 0)
 		{
 			close(data->pipefd[1]);
@@ -55,12 +53,27 @@ void	exec_child(t_pipex *data, int child_index)
 		}
 		dup2_close(data->fds[0], STDIN_FILENO);
 		dup2_close(data->pipefd[1], STDOUT_FILENO);
-	}
-	else if (child_index == 1)
+}
+
+static void	prep_second_child(t_pipex *data)
+{
+	close(data->pipefd[1]);
+	if (data->fds[1] < 0)
 	{
-		close(data->pipefd[1]);
-		dup2_close(data->pipefd[0], STDIN_FILENO);
-		dup2_close(data->fds[1], STDOUT_FILENO);
+		close(data->pipefd[0]);
+		if (data->fds[0] > 2)
+			close(data->fds[0]);
+		exit(EXIT_FAILURE);
 	}
+	dup2_close(data->pipefd[0], STDIN_FILENO);
+	dup2_close(data->fds[1], STDOUT_FILENO);
+}
+
+void	exec_child(t_pipex *data, int child_index)
+{
+	if (child_index == 0)
+		prep_fst_child(data);
+	else if (child_index == 1)
+		prep_second_child(data);
 	exec_cmd(data, child_index);
 }
