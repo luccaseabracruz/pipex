@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:42:50 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:20:02 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:18:12 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static void	exec_cmd_bonus(t_pipex_bonus *data, int pos)
 	path = get_path(cmd_arr[0], data->envp);
 	if (!path)
 	{
-		if (dup2(STDERR_FILENO, STDOUT_FILENO) < 0)
-			perror(DUP2_FAIL_MSG);
+		dup2(STDERR_FILENO, STDOUT_FILENO);
 		ft_printf("Command '%s' not found.\n", cmd_arr[0]);
 		free_strarr(cmd_arr);
 		clean_error_exit(data, NULL, EXIT_FAILURE);
