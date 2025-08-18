@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:58:38 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 20:18:20 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 11:50:51 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,20 @@ static void	init_pipeline(t_pipex_bonus *data)
 	}
 }
 
+static bool	is_strline_equal(char *str, char *line)
+{
+	size_t	len;
+
+	if (ft_strlen(str) > (ft_linelen(line) - 1))
+		len = ft_strlen(str);
+	else
+		len = (ft_linelen(line) - 1);
+	if (ft_strncmp(str, line, len) == 0)
+		return (TRUE);
+	else
+		return (FALSE);
+}
+
 static void	exec_here_doc(t_pipex_bonus *data)
 {
 	char	*line;
@@ -58,7 +72,7 @@ static void	exec_here_doc(t_pipex_bonus *data)
 			ft_printf("\n%s (wanted `%s')\n", HERE_DOC_WARNING, data->argv[2]);
 			break ;
 		}
-		else if (ft_strncmp(data->argv[2], line, (ft_linelen(line)) - 1) == 0)
+		else if (is_strline_equal(data->argv[2], line))
 			break ;
 		ft_putstr_fd(line, pipefd[1]);
 		free(line);
