@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 16:16:51 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 15:14:56 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:15:04 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,12 @@ void	puterr_exit(const char *msg, int status)
 	exit(status);
 }
 
-void	close_pipe(int pipefd[2])
+void	close_fds(int fds[2])
 {
-	close(pipefd[0]);
-	close(pipefd[1]);
+	if (fds[0] > 2)
+		close(fds[0]);
+	if (fds[1] > 2)
+		close(fds[1]);
 }
 
 void	free_strarr(char **arr)

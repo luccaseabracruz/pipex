@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 11:33:57 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 17:36:59 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:16:22 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 		i++;
 	}
 	close_pipes(data.pipeline, (data.cmd_count - 1));
-	close_pipe(data.fds);
+	close_fds(data.fds);
 	exit_status = wait_children_bonus(&data);
 	pipex_final_clean(&data);
 	return (exit_status);

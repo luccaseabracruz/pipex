@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:44:19 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 15:27:19 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:16:21 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	close_free_pipes(int **pipes, int size)
 	i = 0;
 	while (i < size)
 	{
-		close_pipe(pipes[i]);
+		close_fds(pipes[i]);
 		free(pipes[i]);
 		i++;
 	}
