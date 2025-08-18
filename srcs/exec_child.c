@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 20:04:23 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:54:25 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 18:18:26 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static void	exec_cmd(t_pipex *data, int child_index)
 static void	prep_fst_child(t_pipex *data)
 {
 	close(data->pipefd[0]);
-		if (data->fds[0] < 0)
-		{
-			close(data->pipefd[1]);
-			if (data->fds[1] >= 2)
-				close(data->fds[1]);
-			exit(EXIT_FAILURE);
-		}
-		dup2_close(data->fds[0], STDIN_FILENO);
-		dup2_close(data->pipefd[1], STDOUT_FILENO);
+	if (data->fds[0] < 0)
+	{
+		close(data->pipefd[1]);
+		if (data->fds[1] >= 2)
+			close(data->fds[1]);
+		exit(EXIT_FAILURE);
+	}
+	dup2_close(data->fds[0], STDIN_FILENO);
+	dup2_close(data->pipefd[1], STDOUT_FILENO);
 }
 
 static void	prep_second_child(t_pipex *data)

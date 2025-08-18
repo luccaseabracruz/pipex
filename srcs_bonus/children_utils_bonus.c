@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:42:50 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:18:12 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 17:36:03 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,14 @@ static void	exec_cmd_bonus(t_pipex_bonus *data, int pos)
 	if (!path)
 	{
 		dup2(STDERR_FILENO, STDOUT_FILENO);
-		ft_printf("Command '%s' not found.\n", cmd_arr[0]);
+		ft_printf("%s: %s: %s\n", PROGRAM_NAME, CMD_NOT_FOUND_MSG, cmd_arr[0]);
 		free_strarr(cmd_arr);
 		clean_error_exit(data, NULL, EXIT_FAILURE);
 	}
 	if (execve(path, cmd_arr, data->envp) == -1)
 	{
 		free_strarr(cmd_arr);
+		close_fds(data->fds);
 		clean_error_exit(data, EXECVE_FAIL_MSG, EXIT_FAILURE);
 	}
 }
@@ -80,11 +81,19 @@ void	exec_child_bonus(t_pipex_bonus *data, int pos)
 {
 	close_unused_pipes(data, pos);
 	if (pos == 0)
+	{
+		if (data->fds[0] < 0)
+			clean_error_exit(data, NULL, EXIT_FAILURE);
 		dup2_close(data->fds[0], STDIN_FILENO);
+	}
 	else
 		dup2_close(data->pipeline[pos - 1][0], STDIN_FILENO);
 	if (pos == (data->cmd_count - 1))
+	{
+		if (data->fds[1] < 0)
+			clean_error_exit(data, NULL, EXIT_FAILURE);
 		dup2_close(data->fds[1], STDOUT_FILENO);
+	}
 	else
 		dup2_close(data->pipeline[pos][1], STDOUT_FILENO);
 	exec_cmd_bonus(data, pos);

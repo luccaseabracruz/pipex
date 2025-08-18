@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 15:58:38 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 11:50:51 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:56:26 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,13 @@ static void	init_file_fds(t_pipex_bonus *data)
 	{
 		data->fds[0] = open(data->argv[1], O_RDONLY);
 		if (data->fds[0] < 0)
-			clean_error_exit(data, data->argv[1], EXIT_FAILURE);
+		{
+			dup2(STDERR_FILENO, STDOUT_FILENO);
+			ft_printf("%s: %s: %s\n", PROGRAM_NAME, NO_FILE_MSG, data->argv[1]);
+		}
 		data->fds[1] = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (data->fds[1] < 0)
-		{
-			close(data->fds[0]);
-			clean_error_exit(data, outfile, EXIT_FAILURE);
-		}
+			perror(OPEN_FAIL_MSG);
 	}
 }
 

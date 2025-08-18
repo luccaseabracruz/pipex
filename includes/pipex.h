@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:18:31 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:56:23 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define PROGRAM_NAME "pipex"
 # define PATH "PATH="
 # define INVALID_INPUT_MSG "Error: invalid input.\n"
-# define NO_FILE_OR_DIR_MSG "no such file or directory"
+# define NO_FILE_MSG "no such file or directory"
 # define CMD_NOT_FOUND_MSG "command not found"
 # define FORK_FAIL_MSG "fork"
 # define OPEN_FAIL_MSG "open"
