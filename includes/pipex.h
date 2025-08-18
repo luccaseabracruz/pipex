@@ -6,19 +6,22 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 16:34:27 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:56:14 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# define PROGRAM_NAME "pipex"
 # define PATH "PATH="
 # define INVALID_INPUT_MSG "Error: invalid input.\n"
+# define NO_FILE_OR_DIR_MSG "no such file or directory"
 # define FORK_FAIL_MSG "fork"
+# define OPEN_FAIL_MSG "open"
 # define DUP2_FAIL_MSG "dup2"
 # define PIPE_FAIL_MSG "pipe"
-# define EXECVE_FAIL_MSG "execve"
+# define EXECVE_FAIL_MSG "lalalala"
 # define PATH_FAIL_MSG "Could not find a valid path"
 # define EXIT_INVALID_INPUT 3
 # define EXIT_NOT_FOUND 127

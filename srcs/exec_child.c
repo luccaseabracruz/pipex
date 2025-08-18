@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 20:04:23 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 17:22:00 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:37:49 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ static void	exec_cmd(t_pipex *data, int child_index)
 	path = get_path(cmd_arr[0], data->envp);
 	if (!path)
 	{
-		if (dup2(STDERR_FILENO, STDOUT_FILENO) < 0)
-			perror(DUP2_FAIL_MSG);
-		ft_printf("Command not found: %s\n", cmd_arr[0]);
+		dup2(STDERR_FILENO, STDOUT_FILENO);
+		ft_printf("pipex: command not found: %s\n", cmd_arr[0]);
 		free_strarr(cmd_arr);
 		close_pipe(data->pipefd);
 		close_pipe(data->fds);
@@ -46,6 +45,8 @@ void	exec_child(t_pipex *data, int child_index)
 {
 	if (child_index == 0)
 	{
+		if (data->fds[0] < 0)
+			exit(EXIT_FAILURE);
 		close(data->pipefd[0]);
 		dup2_close(data->fds[0], STDIN_FILENO);
 		dup2_close(data->pipefd[1], STDOUT_FILENO);

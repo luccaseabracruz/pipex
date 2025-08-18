@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/13 16:16:51 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 17:22:40 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:14:56 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ int	wait_children(pid_t pid_arr[2])
 
 void	dup2_close(int oldfd, int newfd)
 {
-	if (dup2(oldfd, newfd) < 0)
-		puterr_exit(DUP2_FAIL_MSG, EXIT_FAILURE);
+	dup2(oldfd, newfd);
 	close(oldfd);
 }
 

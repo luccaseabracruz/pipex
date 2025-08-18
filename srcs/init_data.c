@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:28:32 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/14 17:05:06 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:58:09 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,10 @@ void	init_data(t_pipex *data, char **argv, char **envp)
 	data->fds[0] = open(argv[1], O_RDONLY);
 	if (data->fds[0] < 0)
 	{
-		close_pipe(data->pipefd);
-		puterr_exit(argv[1], EXIT_FAILURE);
+		dup2(STDERR_FILENO, STDOUT_FILENO);
+		ft_printf("%s: %s: %s\n", PROGRAM_NAME, NO_FILE_OR_DIR_MSG, argv[1]);
 	}
 	data->fds[1] = open(argv[4], (O_WRONLY | O_CREAT | O_TRUNC), 0644);
-	if (data->fds[0] < 0)
-	{
-		close(data->fds[0]);
-		close_pipe(data->pipefd);
-		puterr_exit(argv[1], EXIT_FAILURE);
-	}
+	if (data->fds[1] < 0)
+		perror(OPEN_FAIL_MSG);
 }
