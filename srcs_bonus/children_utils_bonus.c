@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 19:42:50 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 17:36:03 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/08/19 17:56:08 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	exec_cmd_bonus(t_pipex_bonus *data, int pos)
 		dup2(STDERR_FILENO, STDOUT_FILENO);
 		ft_printf("%s: %s: %s\n", PROGRAM_NAME, CMD_NOT_FOUND_MSG, cmd_arr[0]);
 		free_strarr(cmd_arr);
-		clean_error_exit(data, NULL, EXIT_FAILURE);
+		clean_error_exit(data, NULL, EXIT_NOT_FOUND);
 	}
 	if (execve(path, cmd_arr, data->envp) == -1)
 	{
