@@ -6,7 +6,7 @@
 /*   By: lseabra- <lseabra-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 13:10:58 by lseabra-          #+#    #+#             */
-/*   Updated: 2025/08/18 16:56:23 by lseabra-         ###   ########.fr       */
+/*   Updated: 2025/09/02 15:07:13 by lseabra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define FORK_FAIL_MSG "fork"
 # define OPEN_FAIL_MSG "open"
 # define PIPE_FAIL_MSG "pipe"
-# define EXECVE_FAIL_MSG "lalalala"
+# define EXECVE_FAIL_MSG "execve"
 # define PATH_FAIL_MSG "Could not find a valid path"
 # define EXIT_INVALID_INPUT 3
 # define EXIT_NOT_FOUND 127
